@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ViewPropTypes } from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 const s = StyleSheet.create({
   baseInputStyle: {
@@ -20,7 +19,7 @@ export default class CCInput extends Component {
 
     status: PropTypes.oneOf(['valid', 'invalid', 'incomplete']),
 
-    containerStyle: ViewPropTypes.style,
+    containerStyle: View.propTypes.style,
     inputStyle: Text.propTypes.style,
     labelStyle: Text.propTypes.style,
     validColor: PropTypes.string,
@@ -59,7 +58,7 @@ export default class CCInput extends Component {
 
   focus = () => this.refs.input.focus();
 
- _onFocus = () => {
+  _onFocus = () => {
     if (!alreadyFocus) {
       alreadyFocus = true;
       this.props.onFocus(this.props.field);
@@ -81,14 +80,26 @@ export default class CCInput extends Component {
       validColor,
       invalidColor,
       placeholderColor,
-      additionalInputProps
+      additionalInputProps,
+      accessibilityLabel
     } = this.props;
+
     return (
-      <TouchableOpacity onPress={this.focus} activeOpacity={0.99}>
+      <TouchableOpacity
+        accessible={true}
+        accessibilityLabel={accessibilityLabel}
+        onPress={this.focus}
+        activeOpacity={0.99}
+      >
         <View style={[containerStyle]}>
-          {!!label && <Text style={[labelStyle]}>{label}</Text>}
+          {!!label && (
+            <Text accessible={false} style={[labelStyle]}>
+              {label}
+            </Text>
+          )}
           <TextInput
             ref="input"
+            accessible={false}
             {...additionalInputProps}
             keyboardType={keyboardType}
             autoCapitalise="words"
@@ -98,7 +109,9 @@ export default class CCInput extends Component {
               inputStyle,
               validColor && status === 'valid'
                 ? { color: validColor }
-                : invalidColor && status === 'invalid' ? { color: invalidColor } : {}
+                : invalidColor && status === 'invalid'
+                  ? { color: invalidColor }
+                  : {}
             ]}
             underlineColorAndroid={'transparent'}
             placeholderTextColor={placeholderColor}
