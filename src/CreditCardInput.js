@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, PropTypes } from 'react';
 import ReactNative, {
   NativeModules,
   View,
@@ -8,8 +7,7 @@ import ReactNative, {
   ScrollView,
   Dimensions,
   TextInput,
-  Platform,
-  ViewPropTypes
+  Platform
 } from 'react-native';
 
 import CreditCard from './CardView';
@@ -25,7 +23,7 @@ const s = StyleSheet.create({
     paddingTop: 5
   },
   inputContainer: {
-    marginLeft: 0
+    marginLeft: 5
   },
   inputLabel: {
     fontWeight: 'bold'
@@ -53,25 +51,18 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
     ...InjectedProps,
     labels: PropTypes.object,
     placeholders: PropTypes.object,
+    accessibilityLabels: PropTypes.object,
 
     labelStyle: Text.propTypes.style,
     inputStyle: Text.propTypes.style,
-    inputContainerStyle: ViewPropTypes.style,
+    inputContainerStyle: View.propTypes.style,
 
     validColor: PropTypes.string,
     invalidColor: PropTypes.string,
     placeholderColor: PropTypes.string,
 
-    CVCInputWidth: PropTypes.number,
-    expiryInputWidth: PropTypes.number,
-    cardNumberInputWidthOffset: PropTypes.number,
-    cardNumberInputWidth: PropTypes.number,
-    nameInputWidth: PropTypes.number,
-    previousFieldOffset: PropTypes.number,
-    postalCodeInputWidth: PropTypes.number,
-
-    cardImageFront: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    cardImageBack: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+    cardImageFront: PropTypes.number,
+    cardImageBack: PropTypes.number,
     cardScale: PropTypes.number,
     cardFontFamily: PropTypes.string,
     cardBrandIcons: PropTypes.object,
@@ -97,19 +88,17 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
       cvc: 'CVC',
       postalCode: '34567'
     },
+    accessibilityLabels: {
+      name: 'Full Name',
+      number: '1234 5678 1234 5678',
+      expiry: 'MM/YY',
+      cvc: 'CVC',
+      postalCode: '34567'
+    },
     inputContainerStyle: {
       borderBottomWidth: 1,
       borderBottomColor: 'black'
     },
-
-    CVCInputWidth: CVC_INPUT_WIDTH,
-    expiryInputWidth: EXPIRY_INPUT_WIDTH,
-    cardNumberInputWidthOffset: CARD_NUMBER_INPUT_WIDTH_OFFSET,
-    cardNumberInputWidth: CARD_NUMBER_INPUT_WIDTH,
-    nameInputWidth: NAME_INPUT_WIDTH,
-    previousFieldOffset: PREVIOUS_FIELD_OFFSET,
-    postalCodeInputWidth: POSTAL_CODE_INPUT_WIDTH,
-
     validColor: '',
     invalidColor: 'red',
     placeholderColor: 'gray',
@@ -156,7 +145,8 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
       onChange,
       onBecomeEmpty,
       onBecomeValid,
-      additionalInputsProps
+      additionalInputsProps,
+      accessibilityLabels
     } = this.props;
 
     return {
@@ -172,7 +162,7 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
       placeholder: placeholders[field],
       value: values[field],
       status: status[field],
-
+      accessibilityLabel: accessibilityLabels[field],
       onFocus,
       onChange,
       onBecomeEmpty,
@@ -195,25 +185,11 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
       requiresPostalCode,
       cardScale,
       cardFontFamily,
-      cardBrandIcons,
-      CVCInputWidth,
-      expiryInputWidth,
-      cardNumberInputWidthOffset,
-      cardNumberInputWidth,
-      nameInputWidth,
-      previousFieldOffset,
-      postalCodeInputWidth,
-      placeholderStyle,
-      baseTextStyle,
-      focusedStyle
+      cardBrandIcons
     } = this.props;
-    const width = Dimensions.get('window').width;
     return (
       <View style={s.container}>
         <CreditCard
-          placeholderStyle={placeholderStyle}
-          focusedStyle={focusedStyle}
-          baseTextStyle={baseTextStyle}
           focused={focused}
           brand={type}
           scale={cardScale}
@@ -232,45 +208,37 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
           keyboardShouldPersistTaps="always"
           scrollEnabled={allowScroll}
           showsHorizontalScrollIndicator={false}
-          style={[s.form, { width: '100%' }]}
+          style={s.form}
         >
-          {requiresName && (
-            <CCInput
-              {...this._inputProps('name')}
-              keyboardType="default"
-              containerStyle={[s.inputContainer, { width: nameInputWidth, paddingBottom: 15  }, inputContainerStyle]}
-            />
-          )}
-          
           <CCInput
             {...this._inputProps('number')}
-            containerStyle={[s.inputContainer, { width: cardNumberInputWidth }, inputContainerStyle]}
+            containerStyle={[s.inputContainer, inputContainerStyle, { width: CARD_NUMBER_INPUT_WIDTH }]}
           />
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingTop: 15,
-              width: cardNumberInputWidth,
-              justifyContent: 'space-between'
-            }}
-          >
+          <View style={{ flexDirection: 'row', paddingTop: 20 }}>
             <CCInput
               {...this._inputProps('expiry')}
-              containerStyle={[s.inputContainer, { width: width * 0.26 }, inputContainerStyle]}
+              containerStyle={[s.inputContainer, inputContainerStyle, { width: EXPIRY_INPUT_WIDTH }]}
             />
             {requiresCVC && (
               <CCInput
                 {...this._inputProps('cvc')}
-                containerStyle={[s.inputContainer, { width: width * 0.26 }, inputContainerStyle]}
+                containerStyle={[s.inputContainer, inputContainerStyle, { width: CVC_INPUT_WIDTH }]}
               />
             )}
             {requiresPostalCode && (
               <CCInput
                 {...this._inputProps('postalCode')}
-                containerStyle={[s.inputContainer, { width: width * 0.33 }, inputContainerStyle]}
+                containerStyle={[s.inputContainer, inputContainerStyle, { width: POSTAL_CODE_INPUT_WIDTH }]}
               />
             )}
           </View>
+          {requiresName && (
+            <CCInput
+              {...this._inputProps('name')}
+              keyboardType="default"
+              containerStyle={[s.inputContainer, inputContainerStyle, { width: NAME_INPUT_WIDTH }]}
+            />
+          )}
         </ScrollView>
       </View>
     );
