@@ -70,7 +70,7 @@ export default class CreditCardInput extends Component {
     cardBrandIcons: PropTypes.object,
 
     allowScroll: PropTypes.bool,
-    renderScanView: PropTypes.func,	
+    renderScanView: PropTypes.func,
     additionalInputsProps: PropTypes.objectOf(PropTypes.shape(TextInput.propTypes)),
   };
 
@@ -127,6 +127,7 @@ export default class CreditCardInput extends Component {
       placeholders, labels, values, status,
       onFocus, onChange, onBecomeEmpty, onBecomeValid,
       additionalInputsProps,
+      maxLengths
     } = this.props;
 
     return {
@@ -134,7 +135,8 @@ export default class CreditCardInput extends Component {
       labelStyle: [s.inputLabel, labelStyle],
       validColor, invalidColor, placeholderColor,
       ref: field, field,
-
+      
+      maxLength: maxLengths[field] || -1,
       label: labels[field],
       placeholder: placeholders[field],
       value: values[field],
