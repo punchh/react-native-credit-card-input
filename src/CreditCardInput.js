@@ -46,7 +46,7 @@ const CARD_NUMBER_INPUT_WIDTH_OFFSET = 40;
 const CARD_NUMBER_INPUT_WIDTH = Dimensions.get("window").width - EXPIRY_INPUT_WIDTH - CARD_NUMBER_INPUT_WIDTH_OFFSET;
 const NAME_INPUT_WIDTH = CARD_NUMBER_INPUT_WIDTH;
 const PREVIOUS_FIELD_OFFSET = 40;
-const POSTAL_CODE_INPUT_WIDTH = 100;
+const POSTAL_CODE_INPUT_WIDTH = 80;
 
 /* eslint react/prop-types: 0 */ // https://github.com/yannickcr/eslint-plugin-react/issues/106
 export default class CreditCardInput extends Component {
@@ -135,8 +135,8 @@ export default class CreditCardInput extends Component {
       labelStyle: [s.inputLabel, labelStyle],
       validColor, invalidColor, placeholderColor,
       ref: field, field,
-      
-      maxLength: maxLengths[field] || -1,
+
+      maxLength: maxLengths[field] || 100,
       label: labels[field],
       placeholder: placeholders[field],
       value: values[field],
@@ -176,7 +176,7 @@ export default class CreditCardInput extends Component {
             style={s.form}>
           <CCInput {...this._inputProps("number")}
               containerStyle={[s.inputContainer, inputContainerStyle, { width: CARD_NUMBER_INPUT_WIDTH }]} />
-          <View style={{flexDirection: 'row', paddingTop: 20}}>
+          <View style={{flexDirection: 'row', paddingTop: 20,height: 95 }}>
             <CCInput {...this._inputProps("expiry")}
               containerStyle={[s.inputContainer, inputContainerStyle, { width: EXPIRY_INPUT_WIDTH }]} />
             { requiresCVC &&
