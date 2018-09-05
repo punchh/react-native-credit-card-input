@@ -19,15 +19,15 @@ const s = StyleSheet.create({
     resizeMode: 'contain'
   },
   baseText: {
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: 'rgba(100, 0, 0, 0.8)',
     backgroundColor: 'transparent'
   },
   placeholder: {
-    color: 'rgba(255, 255, 255, 0.5)'
+    color: 'rgba(0, 0, 0, 0.5)'
   },
   focused: {
     fontWeight: 'bold',
-    color: 'rgba(255, 255, 255, 1)'
+    color: 'rgba(0, 0, 0, 1)'
   },
   number: {
     fontSize: 21,
@@ -81,8 +81,8 @@ const s = StyleSheet.create({
 
     scale: PropTypes.number,
     fontFamily: PropTypes.string,
-    imageFront: PropTypes.object,
-    imageBack: PropTypes.object,
+    imageFront: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+    imageBack: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     customIcons: PropTypes.object
   };
 
@@ -114,9 +114,14 @@ const s = StyleSheet.create({
       imageFront,
       imageBack,
       scale,
-      fontFamily
+      fontFamily,
+      placeholderStyle,
+      focusedStyle,
+      baseTextStyle
     } = this.props;
-
+    s.placeholder = placeholderStyle;
+    s.focused = focusedStyle;
+    s.baseText = baseTextStyle;
     const Icons = { ...defaultIcons, ...customIcons };
     const isAmex = brand === 'american-express';
     const shouldFlip = !isAmex && focused === 'cvc';
@@ -137,7 +142,7 @@ const s = StyleSheet.create({
           clickable={false}
           flip={shouldFlip}
         >
-          <ImageBackground style={[BASE_SIZE, s.cardFace, transform]} source={imageFront}>
+          <ImageBackground style={[BASE_SIZE, s.cardFace, transform]} resizeMode="contain" source={imageFront}>
             <Image style={[s.icon]} source={Icons[brand]} />
             <Text
               style={[
@@ -178,7 +183,7 @@ const s = StyleSheet.create({
               </Text>
             )}
           </ImageBackground>
-          <ImageBackground style={[BASE_SIZE, s.cardFace, transform]} source={imageBack}>
+          <ImageBackground style={[BASE_SIZE, s.cardFace, transform]} resizeMode="contain" source={imageBack}>
             <Text style={[s.baseText, s.cvc, !cvc && s.placeholder, focused === 'cvc' && s.focused]}>
               {!cvc ? placeholder.cvc : cvc}
             </Text>
