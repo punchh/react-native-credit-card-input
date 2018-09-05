@@ -40,7 +40,7 @@ export default class CCFieldFormatter {
     return formatted;
   };
 
- _formatExpiry = (expiry) => {
+  _formatExpiry = (expiry) => {
       if (!!expiry) {
       const sanitized = limitLength(removeNonNumber(expiry), 4);
       if (sanitized.match(/^[2-9]$/)) { return `0${sanitized}`; }
@@ -50,8 +50,8 @@ export default class CCFieldFormatter {
     return null;
   };
 
-  _formatCVC = (cvc, card) => {
-    const maxCVCLength = card.code.size;
-    return limitLength(removeNonNumber(cvc), maxCVCLength);
-  };
+_formatCVC = (cvc, card) => {
+  const maxCVCLength = card.code.size;
+  return limitLength(removeNonNumber(cvc), maxCVCLength);
+};
 }

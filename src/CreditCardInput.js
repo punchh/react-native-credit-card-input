@@ -46,7 +46,7 @@ const CARD_NUMBER_INPUT_WIDTH_OFFSET = 40;
 const CARD_NUMBER_INPUT_WIDTH = Dimensions.get('window').width - EXPIRY_INPUT_WIDTH - CARD_NUMBER_INPUT_WIDTH_OFFSET;
 const NAME_INPUT_WIDTH = CARD_NUMBER_INPUT_WIDTH;
 const PREVIOUS_FIELD_OFFSET = 40;
-const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plugin-react/issues/106
+const POSTAL_CODE_INPUT_WIDTH = 80;
 
 /* eslint react/prop-types: 0 */ export default class CreditCardInput extends Component {
   static propTypes = {
@@ -78,7 +78,8 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
 
     allowScroll: PropTypes.bool,
     renderScanView: PropTypes.func,
-    additionalInputsProps: PropTypes.objectOf(PropTypes.shape(TextInput.propTypes))
+
+    additionalInputsProps: PropTypes.objectOf(PropTypes.shape(TextInput.propTypes)),
   };
 
   static defaultProps = {
@@ -143,20 +144,11 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
 
   _inputProps = field => {
     const {
-      inputStyle,
-      labelStyle,
-      validColor,
-      invalidColor,
-      placeholderColor,
-      placeholders,
-      labels,
-      values,
-      status,
-      onFocus,
-      onChange,
-      onBecomeEmpty,
-      onBecomeValid,
-      additionalInputsProps
+      inputStyle, labelStyle, validColor, invalidColor, placeholderColor,
+      placeholders, labels, values, status,
+      onFocus, onChange, onBecomeEmpty, onBecomeValid,
+      additionalInputsProps,
+      maxLengths
     } = this.props;
 
     return {
@@ -168,6 +160,7 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
       ref: field,
       field,
 
+      maxLength: maxLengths[field] || 100,
       label: labels[field],
       placeholder: placeholders[field],
       value: values[field],
@@ -251,7 +244,8 @@ const POSTAL_CODE_INPUT_WIDTH = 100; // https://github.com/yannickcr/eslint-plug
               flexDirection: 'row',
               paddingTop: 15,
               width: cardNumberInputWidth,
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              height: 95
             }}
           >
             <CCInput
