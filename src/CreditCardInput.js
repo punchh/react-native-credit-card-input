@@ -160,7 +160,7 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
       ref: field,
       field,
 
-      maxLength: maxLengths[field] ? maxLengths[field] : 100,
+      maxLength: maxLengths ? maxLengths[field] : 100,
       label: labels[field],
       placeholder: placeholders[field],
       value: values[field],
