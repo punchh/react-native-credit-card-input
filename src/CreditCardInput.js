@@ -35,7 +35,7 @@ const s = StyleSheet.create({
   }
 });
 
-const CVC_INPUT_WIDTH = 0;
+let CVC_INPUT_WIDTH = 0;
 if (Platform.OS === 'android') {
   CVC_INPUT_WIDTH = 80;
 } else {
