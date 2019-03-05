@@ -76,10 +76,16 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
     cardFontFamily: PropTypes.string,
     cardBrandIcons: PropTypes.object,
 
+    container: PropTypes.object,
+    CVCInputStyle: PropTypes.object,
+    expiryInputStyle: PropTypes.object,
+    cardNumberInputStyle: PropTypes.object,
+    cardImageSize: PropTypes.object,
+
     allowScroll: PropTypes.bool,
     renderScanView: PropTypes.func,
 
-    additionalInputsProps: PropTypes.objectOf(PropTypes.shape(TextInput.propTypes)),
+    additionalInputsProps: PropTypes.objectOf(PropTypes.shape(TextInput.propTypes))
   };
 
   static defaultProps = {
@@ -110,6 +116,12 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
     nameInputWidth: NAME_INPUT_WIDTH,
     previousFieldOffset: PREVIOUS_FIELD_OFFSET,
     postalCodeInputWidth: POSTAL_CODE_INPUT_WIDTH,
+
+    container: {},
+    CVCInputStyle: {},
+    expiryInputStyle: {},
+    cardNumberInputStyle: {},
+    cardImageSize: { width: 300, height: 190 },
 
     validColor: '',
     invalidColor: 'red',
@@ -144,9 +156,19 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
 
   _inputProps = field => {
     const {
-      inputStyle, labelStyle, validColor, invalidColor, placeholderColor,
-      placeholders, labels, values, status,
-      onFocus, onChange, onBecomeEmpty, onBecomeValid,
+      inputStyle,
+      labelStyle,
+      validColor,
+      invalidColor,
+      placeholderColor,
+      placeholders,
+      labels,
+      values,
+      status,
+      onFocus,
+      onChange,
+      onBecomeEmpty,
+      onBecomeValid,
       additionalInputsProps,
       maxLengths
     } = this.props;
@@ -170,7 +192,6 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
       onChange,
       onBecomeEmpty,
       onBecomeValid,
-
       additionalInputProps: additionalInputsProps[field]
     };
   };
@@ -182,6 +203,8 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
       inputContainerStyle,
       values: { number, expiry, cvc, name, type },
       focused,
+      container,
+      cardImageSize,
       allowScroll,
       requiresName,
       requiresCVC,
@@ -189,20 +212,18 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
       cardScale,
       cardFontFamily,
       cardBrandIcons,
-      CVCInputWidth,
-      expiryInputWidth,
-      cardNumberInputWidthOffset,
-      cardNumberInputWidth,
-      nameInputWidth,
-      previousFieldOffset,
-      postalCodeInputWidth,
+      CVCInputStyle,
+      expiryInputStyle,
+      cardNumberInputStyle,
+      nameInputStyle,
+      postalCodeInputStyle,
       placeholderStyle,
       baseTextStyle,
       focusedStyle
     } = this.props;
     const width = Dimensions.get('window').width;
     return (
-      <View style={s.container}>
+      <View style={[s.container, container]}>
         <CreditCard
           placeholderStyle={placeholderStyle}
           focusedStyle={focusedStyle}
@@ -210,6 +231,7 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
           focused={focused}
           brand={type}
           scale={cardScale}
+          baseSize={cardImageSize}
           fontFamily={cardFontFamily}
           imageFront={cardImageFront}
           imageBack={cardImageBack}
@@ -225,43 +247,48 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
           keyboardShouldPersistTaps="always"
           scrollEnabled={allowScroll}
           showsHorizontalScrollIndicator={false}
-          style={[s.form, { width: '100%' }]}
+          style={[{ width: '100%' }]}
         >
           {requiresName && (
             <CCInput
               {...this._inputProps('name')}
               keyboardType="default"
-              containerStyle={[s.inputContainer, { width: nameInputWidth, paddingBottom: 15  }, inputContainerStyle]}
+              containerStyle={[
+                s.inputContainer,
+                { width: '100%', paddingBottom: 15 },
+                inputContainerStyle,
+                nameInputStyle
+              ]}
             />
           )}
-          
+
           <CCInput
             {...this._inputProps('number')}
-            containerStyle={[s.inputContainer, { width: cardNumberInputWidth }, inputContainerStyle]}
+            containerStyle={[s.inputContainer, { width: '100%' }, inputContainerStyle, cardNumberInputStyle]}
           />
           <View
             style={{
               flexDirection: 'row',
               paddingTop: 15,
-              width: cardNumberInputWidth,
+              width: '100%',
               justifyContent: 'space-between',
               height: 95
             }}
           >
             <CCInput
               {...this._inputProps('expiry')}
-              containerStyle={[s.inputContainer, { width: width * 0.26 }, inputContainerStyle]}
+              containerStyle={[s.inputContainer, { width: width * 0.26 }, inputContainerStyle, CVCInputStyle]}
             />
             {requiresCVC && (
               <CCInput
                 {...this._inputProps('cvc')}
-                containerStyle={[s.inputContainer, { width: width * 0.26 }, inputContainerStyle]}
+                containerStyle={[s.inputContainer, { width: width * 0.26 }, inputContainerStyle, expiryInputStyle]}
               />
             )}
             {requiresPostalCode && (
               <CCInput
                 {...this._inputProps('postalCode')}
-                containerStyle={[s.inputContainer, { width: width * 0.33 }, inputContainerStyle]}
+                containerStyle={[s.inputContainer, { width: width * 0.33 }, inputContainerStyle, postalCodeInputStyle]}
               />
             )}
           </View>
