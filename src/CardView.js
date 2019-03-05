@@ -79,6 +79,7 @@ const s = StyleSheet.create({
     cvc: PropTypes.string,
     placeholder: PropTypes.object,
 
+    baseSize: PropTypes.object,
     scale: PropTypes.number,
     fontFamily: PropTypes.string,
     imageFront: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
@@ -95,6 +96,7 @@ const s = StyleSheet.create({
       cvc: '•••'
     },
 
+    baseSize: BASE_SIZE,
     scale: 1,
     fontFamily: Platform.select({ ios: 'Courier', android: 'monospace' }),
     imageFront: { uri: 'card_front' },
@@ -114,6 +116,7 @@ const s = StyleSheet.create({
       imageFront,
       imageBack,
       scale,
+      baseSize,
       fontFamily,
       placeholderStyle,
       focusedStyle,
@@ -126,9 +129,9 @@ const s = StyleSheet.create({
     const isAmex = brand === 'american-express';
     const shouldFlip = !isAmex && focused === 'cvc';
 
-    const containerSize = { ...BASE_SIZE, height: BASE_SIZE.height * scale };
+    const containerSize = { ...baseSize, height: baseSize.height * scale };
     const transform = {
-      transform: [{ scale }, { translateY: BASE_SIZE.height * (scale - 1) / 2 }]
+      transform: [{ scale }, { translateY: (baseSize.height * (scale - 1)) / 2 }]
     };
 
     return (
@@ -142,7 +145,7 @@ const s = StyleSheet.create({
           clickable={false}
           flip={shouldFlip}
         >
-          <ImageBackground style={[BASE_SIZE, s.cardFace, transform]} resizeMode="contain" source={imageFront}>
+          <ImageBackground style={[baseSize, s.cardFace, transform]} resizeMode="contain" source={imageFront}>
             <Image style={[s.icon]} source={Icons[brand]} />
             <Text
               style={[
@@ -183,7 +186,7 @@ const s = StyleSheet.create({
               </Text>
             )}
           </ImageBackground>
-          <ImageBackground style={[BASE_SIZE, s.cardFace, transform]} resizeMode="contain" source={imageBack}>
+          <ImageBackground style={[baseSize, s.cardFace, transform]} resizeMode="contain" source={imageBack}>
             <Text style={[s.baseText, s.cvc, !cvc && s.placeholder, focused === 'cvc' && s.focused]}>
               {!cvc ? placeholder.cvc : cvc}
             </Text>
