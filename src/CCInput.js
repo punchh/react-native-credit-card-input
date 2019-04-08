@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ViewPropTypes } from 'react-native';
 
+import { LabelTextInput } from 'react-native-punchh-components';
+
 const s = StyleSheet.create({
   baseInputStyle: {
     color: 'black'
@@ -59,7 +61,7 @@ export default class CCInput extends Component {
 
   focus = () => this.refs.input.focus();
 
- _onFocus = () => {
+  _onFocus = () => {
     if (!alreadyFocus) {
       alreadyFocus = true;
       this.props.onFocus(this.props.field);
@@ -69,27 +71,41 @@ export default class CCInput extends Component {
   _onChange = value => this.props.onChange(this.props.field, value);
 
   render() {
-    const { label, value, placeholder, status, keyboardType,
-            containerStyle, inputStyle, labelStyle,
-            validColor, invalidColor, placeholderColor,
-            additionalInputProps,maxLength } = this.props;
+    const {
+      label,
+      value,
+      placeholder,
+      status,
+      keyboardType,
+      containerStyle,
+      inputStyle,
+      labelStyle,
+      validColor,
+      invalidColor,
+      placeholderColor,
+      additionalInputProps,
+      maxLength
+    } = this.props;
     return (
       <TouchableOpacity onPress={this.focus} activeOpacity={0.99}>
-        <View style={[containerStyle]}>
-          {!!label && <Text style={[labelStyle]}>{label}</Text>}
-          <TextInput
+        <View
+          style={[
+            containerStyle,
+            validColor && status === 'valid'
+              ? { borderColor: validColor }
+              : invalidColor && status === 'invalid'
+              ? { borderColor: invalidColor }
+              : {}
+          ]}
+        >
+          <LabelTextInput
             ref="input"
             {...additionalInputProps}
             keyboardType={keyboardType}
             autoCapitalise="words"
             autoCorrect={false}
-            style={[
-              s.baseInputStyle,
-              inputStyle,
-              validColor && status === 'valid'
-                ? { color: validColor }
-                : invalidColor && status === 'invalid' ? { color: invalidColor } : {}
-            ]}
+            inputStyle={[s.baseInputStyle, inputStyle]}
+            labelStyle={labelStyle}
             underlineColorAndroid={'transparent'}
             placeholderTextColor={placeholderColor}
             placeholder={placeholder}
@@ -97,6 +113,8 @@ export default class CCInput extends Component {
             value={value}
             onFocus={this._onFocus}
             onChangeText={this._onChange}
+            label={label}
+            placeholder={''}
           />
         </View>
       </TouchableOpacity>
