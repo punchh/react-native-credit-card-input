@@ -1,35 +1,41 @@
-import valid from "card-validator";
-import { removeNonNumber, removeLeadingSpaces } from "./Utilities";
-import pick from "lodash.pick";
+import valid from 'card-validator';
+import { removeNonNumber, removeLeadingSpaces } from './Utilities';
+import pick from 'lodash.pick';
 
-const limitLength = (string = "", maxLength) => string.substr(0, maxLength);
-const addGaps = (string = "", gaps) => {
+const limitLength = (string = '', maxLength) => string.substr(0, maxLength);
+const addGaps = (string = '', gaps) => {
   const offsets = [0].concat(gaps).concat([string.length]);
 
-  return offsets.map((end, index) => {
-    if (index === 0) return "";
-    const start = offsets[index - 1];
-    return string.substr(start, end - start);
-  }).filter(part => part !== "").join(" ");
+  return offsets
+    .map((end, index) => {
+      if (index === 0) return '';
+      const start = offsets[index - 1];
+      return string.substr(start, end - start);
+    })
+    .filter(part => part !== '')
+    .join(' ');
 };
 
 const FALLBACK_CARD = { gaps: [4, 8, 12], lengths: [16], code: { size: 3 } };
 export default class CCFieldFormatter {
   constructor(displayedFields) {
-    this._displayedFields = [...displayedFields, "type"];
+    this._displayedFields = [...displayedFields, 'type'];
   }
 
-  formatValues = (values) => {
+  formatValues = values => {
     const card = valid.number(values.number).card || FALLBACK_CARD;
 
-    return pick({
-      type: card.type,
-      number: this._formatNumber(values.number, card),
-      expiry: this._formatExpiry(values.expiry),
-      cvc: this._formatCVC(values.cvc, card),
-      name: removeLeadingSpaces(values.name),
-      postalCode: removeNonNumber(values.postalCode),
-    }, this._displayedFields);
+    return pick(
+      {
+        type: card.type,
+        number: this._formatNumber(values.number, card),
+        expiry: this._formatExpiry(values.expiry),
+        cvc: this._formatCVC(values.cvc, card),
+        name: removeLeadingSpaces(values.name),
+        postalCode: removeNonNumber(values.postalCode)
+      },
+      this._displayedFields
+    );
   };
 
   _formatNumber = (number, card) => {
@@ -40,18 +46,22 @@ export default class CCFieldFormatter {
     return formatted;
   };
 
-  _formatExpiry = (expiry) => {
-      if (!!expiry) {
+  _formatExpiry = expiry => {
+    if (!!expiry) {
       const sanitized = limitLength(removeNonNumber(expiry), 4);
-      if (sanitized.match(/^[2-9]$/)) { return `0${sanitized}`; }
-      if (sanitized.length > 2) { return `${sanitized.substr(0, 2)}/${sanitized.substr(2, sanitized.length)}`; }
+      if (sanitized.match(/^[2-9]$/)) {
+        return `0${sanitized}`;
+      }
+      if (sanitized.length > 2) {
+        return `${sanitized.substr(0, 2)}/${sanitized.substr(2, sanitized.length)}`;
+      }
       return sanitized;
     }
-    return null;
+    return '';
   };
 
-_formatCVC = (cvc, card) => {
-  const maxCVCLength = card.code.size;
-  return limitLength(removeNonNumber(cvc), maxCVCLength);
-};
+  _formatCVC = (cvc, card) => {
+    const maxCVCLength = card.code.size;
+    return limitLength(removeNonNumber(cvc), maxCVCLength);
+  };
 }

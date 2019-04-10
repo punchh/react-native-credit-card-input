@@ -83,9 +83,11 @@ export default class CCInput extends Component {
       validColor,
       invalidColor,
       placeholderColor,
+      placeholderLabelStyle,
       additionalInputProps,
       maxLength
     } = this.props;
+
     return (
       <TouchableOpacity onPress={this.focus} activeOpacity={0.99}>
         <View
@@ -106,6 +108,7 @@ export default class CCInput extends Component {
             autoCorrect={false}
             inputStyle={[s.baseInputStyle, inputStyle]}
             labelStyle={labelStyle}
+            placeholderLabelStyle={placeholderLabelStyle}
             underlineColorAndroid={'transparent'}
             placeholderTextColor={placeholderColor}
             placeholder={placeholder}
