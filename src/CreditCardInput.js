@@ -27,9 +27,6 @@ const s = StyleSheet.create({
   inputContainer: {
     marginLeft: 0
   },
-  inputLabel: {
-    fontWeight: 'bold'
-  },
   input: {
     height: 40
   }
@@ -158,6 +155,7 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
     const {
       inputStyle,
       labelStyle,
+      placeholderLabelStyle,
       validColor,
       invalidColor,
       placeholderColor,
@@ -175,7 +173,8 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
 
     return {
       inputStyle: [s.input, inputStyle],
-      labelStyle: [s.inputLabel, labelStyle],
+      labelStyle,
+      placeholderLabelStyle,
       validColor,
       invalidColor,
       placeholderColor,
@@ -247,7 +246,7 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
           keyboardShouldPersistTaps="always"
           scrollEnabled={allowScroll}
           showsHorizontalScrollIndicator={false}
-          style={[{ width: '100%' }]}
+          style={[{ width: '100%', marginTop: 10 }]}
         >
           {requiresName && (
             <CCInput
@@ -271,8 +270,7 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
               flexDirection: 'row',
               paddingTop: 15,
               width: '100%',
-              justifyContent: 'space-between',
-              height: 95
+              justifyContent: 'space-between'
             }}
           >
             <CCInput
