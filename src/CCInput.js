@@ -55,6 +55,7 @@ export default class CCInput extends Component {
     const { status, value, onBecomeEmpty, onBecomeValid, field } = this.props;
     const { status: newStatus, value: newValue } = newProps;
 
+    !!value && this.refs.input.setDirty();
     if (value !== '' && newValue === '') onBecomeEmpty(field);
     if (status !== 'valid' && newStatus === 'valid') onBecomeValid(field);
   };
