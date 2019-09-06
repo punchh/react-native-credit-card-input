@@ -103,6 +103,16 @@ const s = StyleSheet.create({
     imageBack: { uri: 'card_back' }
   };
 
+  renderAccessbilityLabel() {
+    if (this.props.number && this.props.expiry) {
+      return this.props.brand + '. Card Number' + this.props.number + 'Expiry Date' + this.props.expiry;
+    }
+    if (this.props.number) {
+      return this.props.brand + '. Card Number' + this.props.number;
+    }
+    return '';
+  }
+
   render() {
     const {
       focused,
@@ -135,7 +145,11 @@ const s = StyleSheet.create({
     };
 
     return (
-      <View style={[s.cardContainer, containerSize]}>
+      <View
+        accessible={true}
+        accessibilityLabel={this.renderAccessbilityLabel()}
+        style={[s.cardContainer, containerSize]}
+      >
         <FlipCard
           style={{ borderWidth: 0 }}
           flipHorizontal

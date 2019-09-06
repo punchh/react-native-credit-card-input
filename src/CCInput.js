@@ -88,9 +88,8 @@ export default class CCInput extends Component {
       additionalInputProps,
       maxLength
     } = this.props;
-
     return (
-      <TouchableOpacity onPress={this.focus} activeOpacity={0.99}>
+      <TouchableOpacity accessible={false} onPress={this.focus} activeOpacity={0.99}>
         <View
           style={[
             containerStyle,
@@ -100,6 +99,7 @@ export default class CCInput extends Component {
               ? { borderColor: invalidColor }
               : {}
           ]}
+          accessible={false}
         >
           <LabelTextInput
             ref="input"
