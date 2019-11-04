@@ -275,18 +275,20 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
           >
             <CCInput
               {...this._inputProps('expiry')}
-              containerStyle={[s.inputContainer, { width: width * 0.26 }, inputContainerStyle, CVCInputStyle]}
+              containerStyle={[s.inputContainer, { width: width * 0.4 }, inputContainerStyle, CVCInputStyle]}
             />
             {requiresCVC && (
               <CCInput
                 {...this._inputProps('cvc')}
-                containerStyle={[s.inputContainer, { width: width * 0.26 }, inputContainerStyle, expiryInputStyle]}
+                containerStyle={[s.inputContainer, { width: width * 0.4 }, inputContainerStyle, expiryInputStyle]}
               />
             )}
+          </View>
+          <View style={{ paddingTop: 15 }}>
             {requiresPostalCode && (
               <CCInput
                 {...this._inputProps('postalCode')}
-                containerStyle={[s.inputContainer, { width: width * 0.33 }, inputContainerStyle, postalCodeInputStyle]}
+                containerStyle={[s.inputContainer, { width: '100%' }, inputContainerStyle, postalCodeInputStyle]}
               />
             )}
           </View>
