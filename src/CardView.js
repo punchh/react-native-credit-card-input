@@ -110,7 +110,7 @@ const s = StyleSheet.create({
     if (this.props.number) {
       return this.props.brand + '. Card Number' + this.props.number;
     }
-    return '';
+    return 'Credit Card Image';
   }
 
   render() {
