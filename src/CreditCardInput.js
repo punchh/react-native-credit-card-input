@@ -263,7 +263,13 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
 
           <CCInput
             {...this._inputProps('number')}
-            containerStyle={[s.inputContainer, { width: '100%' }, inputContainerStyle, cardNumberInputStyle]}
+            containerStyle={[
+              s.inputContainer,
+              { width: isLandscape ? '92%' : '100%', marginLeft: isLandscape ? 30 : 0 },
+              inputContainerStyle,
+              cardNumberInputStyle
+            ]}
+            accessibilityLabel={'Credit Card Number'}
           />
           <View
             style={{
@@ -275,12 +281,24 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
           >
             <CCInput
               {...this._inputProps('expiry')}
-              containerStyle={[s.inputContainer, { width: width * 0.4 }, inputContainerStyle, CVCInputStyle]}
+              containerStyle={[
+                s.inputContainer,
+                { width: width * 0.4, marginLeft: isLandscape ? 30 : 0 },
+                inputContainerStyle,
+                CVCInputStyle
+              ]}
+              accessibilityLabel={'Expiry Date '}
             />
             {requiresCVC && (
               <CCInput
                 {...this._inputProps('cvc')}
-                containerStyle={[s.inputContainer, { width: width * 0.4 }, inputContainerStyle, expiryInputStyle]}
+                containerStyle={[
+                  s.inputContainer,
+                  { width: width * 0.4, marginRight: isLandscape ? 38 : 0 },
+                  inputContainerStyle,
+                  expiryInputStyle
+                ]}
+                accessibilityLabel={'CVC'}
               />
             )}
           </View>
@@ -288,7 +306,13 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
             {requiresPostalCode && (
               <CCInput
                 {...this._inputProps('postalCode')}
-                containerStyle={[s.inputContainer, { width: '100%' }, inputContainerStyle, postalCodeInputStyle]}
+                containerStyle={[
+                  s.inputContainer,
+                  { width: isLandscape ? '92%' : '100%', marginLeft: isLandscape ? 30 : 0 },
+                  inputContainerStyle,
+                  postalCodeInputStyle
+                ]}
+                accessibilityLabel={'zip code'}
               />
             )}
           </View>
