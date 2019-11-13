@@ -220,7 +220,8 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
       baseTextStyle,
       focusedStyle
     } = this.props;
-    const width = Dimensions.get('window').width;
+    const { width, height } = Dimensions.get('window');
+    const isLandscape = width > height;
     return (
       <View style={[s.container, container]}>
         <CreditCard
@@ -254,7 +255,7 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
               keyboardType="default"
               containerStyle={[
                 s.inputContainer,
-                { width: '100%', paddingBottom: 15 },
+                { width: isLandscape ? '92%' : '100%', marginLeft: isLandscape ? 30 : 0 },
                 inputContainerStyle,
                 nameInputStyle
               ]}
