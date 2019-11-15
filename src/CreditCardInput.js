@@ -266,7 +266,7 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
             {...this._inputProps('number')}
             containerStyle={[
               s.inputContainer,
-              { width: isLandscape ? '92%' : '100%', marginLeft: isLandscape ? 30 : 0 },
+              { width: isLandscape ? '92%' : '100%', marginLeft: isLandscape ? 30 : 0,marginTop:15 },
               inputContainerStyle,
               cardNumberInputStyle
             ]}
