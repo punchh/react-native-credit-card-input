@@ -16,6 +16,8 @@ import CreditCard from './CardView';
 import CCInput from './CCInput';
 import { InjectedProps } from './connectToState';
 
+const width = Dimensions.get('window').width;
+
 const s = StyleSheet.create({
   container: {
     alignItems: 'center'
@@ -40,7 +42,7 @@ if (Platform.OS === 'android') {
 }
 const EXPIRY_INPUT_WIDTH = CVC_INPUT_WIDTH;
 const CARD_NUMBER_INPUT_WIDTH_OFFSET = 40;
-const CARD_NUMBER_INPUT_WIDTH = Dimensions.get('window').width - EXPIRY_INPUT_WIDTH - CARD_NUMBER_INPUT_WIDTH_OFFSET;
+const CARD_NUMBER_INPUT_WIDTH = width - EXPIRY_INPUT_WIDTH - CARD_NUMBER_INPUT_WIDTH_OFFSET;
 const NAME_INPUT_WIDTH = CARD_NUMBER_INPUT_WIDTH;
 const PREVIOUS_FIELD_OFFSET = 40;
 const POSTAL_CODE_INPUT_WIDTH = 80;
@@ -220,7 +222,6 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
       baseTextStyle,
       focusedStyle
     } = this.props;
-    const width = Dimensions.get('window').width;
     return (
       <View style={[s.container, container]}>
         <CreditCard
