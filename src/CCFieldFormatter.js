@@ -22,7 +22,7 @@ export default class CCFieldFormatter {
     this._displayedFields = [...displayedFields, 'type'];
   }
 
-  formatValues = values => {
+  formatValues = (values, requiresAlphanumericPostalCode) => {
     const card = valid.number(values.number).card || FALLBACK_CARD;
 
     return pick(
@@ -32,7 +32,7 @@ export default class CCFieldFormatter {
         expiry: this._formatExpiry(values.expiry),
         cvc: this._formatCVC(values.cvc, card),
         name: removeLeadingSpaces(values.name),
-        postalCode: removeNonNumber(values.postalCode)
+        postalCode: requiresAlphanumericPostalCode ? values.postalCode : removeNonNumber(values.postalCode)
       },
       this._displayedFields
     );

@@ -57,9 +57,10 @@ export default function connectToState(CreditCardInput) {
     });
 
     setValues = values => {
+      const { requiresAlphanumericPostalCode } = this.props;
       const newValues = { ...this.state.values, ...values };
       const displayedFields = this._displayedFields();
-      const formattedValues = (new CCFieldFormatter(displayedFields)).formatValues(newValues);
+      const formattedValues = (new CCFieldFormatter(displayedFields)).formatValues(newValues, requiresAlphanumericPostalCode);
       const validation = (new CCFieldValidator(displayedFields, this.props.validatePostalCode)).validateValues(formattedValues);
       const newState = { values: formattedValues, ...validation };
 
