@@ -103,7 +103,6 @@ export default class CCInput extends Component {
         >
           <LabelTextInput
             ref="input"
-            {...additionalInputProps}
             keyboardType={keyboardType}
             autoCapitalise="words"
             autoCorrect={false}
@@ -119,6 +118,7 @@ export default class CCInput extends Component {
             onChangeText={this._onChange}
             label={label}
             placeholder={''}
+            {...additionalInputProps}
           />
         </View>
       </TouchableOpacity>
