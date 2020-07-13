@@ -87,7 +87,7 @@ export default function connectToState(CreditCardInput) {
       const displayedFields = this._displayedFields();
       const fieldIndex = displayedFields.indexOf(field);
       const previousField = displayedFields[fieldIndex - 1];
-      if (previousField) this.focus(previousField);
+//       if (previousField) this.focus(previousField);
     };
 
     _focusNextField = field => {
