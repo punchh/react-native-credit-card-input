@@ -165,7 +165,6 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
       status,
       onFocus,
       onChange,
-      onBecomeEmpty,
       onBecomeValid,
       additionalInputsProps,
       maxLengths
@@ -189,7 +188,6 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
 
       onFocus,
       onChange,
-      onBecomeEmpty,
       onBecomeValid,
       additionalInputProps: additionalInputsProps[field]
     };
