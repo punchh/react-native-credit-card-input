@@ -151,7 +151,7 @@ const POSTAL_CODE_INPUT_WIDTH = 80;
     );
   };
 
-  _inputProps = field => {
+  _inputProps = function (field) {
     const {
       inputStyle,
       labelStyle,
